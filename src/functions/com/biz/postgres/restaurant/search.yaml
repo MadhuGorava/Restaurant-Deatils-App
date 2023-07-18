@@ -1,4 +1,4 @@
-summary: Fetch Restaurants by City with Filtered Menu Items
+summary: Fetch many Restaurant
 tasks:
   - id: postgres_restaurant_search
     fn: com.gs.datastore
@@ -6,24 +6,11 @@ tasks:
       datasource: postgres
       data:
         where:
-          location:
-            equals: <% inputs.body.city %>
-            mode: 'insensitive'
-        select:
-          id: true
-          name: true
-          location: true
-          since: true
-          isOpen: true
-          opsStartTime: true
-          opsEndTime: true
+          location: <% inputs.body.location %>
+        include:
           menuItems:
-            select:
-              id: true
-              name: true
-              description: true
-              price: true
+            where:
               couponCode:
-                has: <% inputs.body.couponCode %>
+                equals: <% inputs.body.couponCode %>
       config:
         method: Restaurant.findMany
